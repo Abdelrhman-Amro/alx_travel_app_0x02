@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Booking, Listing, Review
+from .models import Booking, Listing, Payment, Review
 
 
 class ListingSerializer(serializers.ModelSerializer):
@@ -19,3 +19,9 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ["rating", "comment", "created_at", "listing", "user"]
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = "__all__"
