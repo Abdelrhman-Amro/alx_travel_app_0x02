@@ -89,3 +89,32 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.listing.name}"
+
+class Payment(models.Model):
+    PAYMENT_METHODS = (
+        ("credit_card", "Credit_card"),
+        ("paypal", "PayPal"),
+        ("stripe", "Stripe"),
+    )
+    PAYMENT_STATUS = (
+        ("pending", "Pending"),
+        ("confirmed", "Confirmed"),
+        ("cancelled", "Cancelled"),
+    )
+
+    # Fields
+    amount = models.DecimalField(max_digits=5)
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS)
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS, default="pending")
+    payment_date = models.DateTimeField(auto_now_add=True)
+    
+    # Relationships
+    booking = models.ForeignKey(Booking, on_delete=models.CASCADE, related_name="payments")
+    
+    class Meta:
+        verbose_name_plural = "Payments"
+        verbose_name = "Payment"
+        
+    def __str__(self):
+        return f"{self.id} - {self.payment_method}"
+    
